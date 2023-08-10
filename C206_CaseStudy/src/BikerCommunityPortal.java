@@ -1,4 +1,7 @@
+
 import java.util.ArrayList;
+
+ 
 
 public class BikerCommunityPortal {
 
@@ -11,10 +14,12 @@ public class BikerCommunityPortal {
 
 		ArrayList<Biker> bikerGroup = new ArrayList<Biker>();
 
+ 
+
 		//list for overall system
 		ArrayList<Biker> bikerList = new ArrayList<Biker>();
-
- 
+		Biker biker1 = new Biker("Zhi Yong", "20-01-2004 ", "Singaporean", "22010029@myrp.edu.sg", 90009000, 'M', 19, "ZhiYong", "E@123456", 2);
+		bikerList.add(biker1);
 
 		int option = 0;
 
@@ -22,42 +27,44 @@ public class BikerCommunityPortal {
 
 		while (option != 5) {
 
+ 
+
 			BikerCommunityPortal.menu();
 			option = Helper.readInt("Enter an option > ");
 			if (option == 1) {
 				createBiker();
-
- 
-
-				
 			}
 			else if (option == 2) {
-//				addbikeunderBiker();
-				addBiker(bikerGroup, null);
+				//				addbikeunderBiker();
+				Biker biker = createBiker();
+				addBiker(bikerList, biker);
+				System.out.println("Biker added");
 			}
 			else if (option == 3) {
-//				addnewRegistration();
-				deleteBiker(bikerGroup, null);
+				//				addnewRegistration();
+				deleteBiker(bikerList);
 			}
 			else if (option == 4) {
-//				if(usertype == admin) {
-//					addBiker(bikerGroup);
-//					deleteBiker(bikerGroup);
-//					viewAllBiker(bikerGroup);
-//					addDiscussionGroups(bikerGroup);
-//					viewDiscussionGroups(bikerGroup);
-//					deleteDiscussionGroups(bikerGroup);
-//				}
-//				else {
-//					System.out.println("Only admin can access");
-//				}
+				//				if(usertype == admin) {
+				//					addBiker(bikerGroup);
+				//					deleteBiker(bikerGroup);
+				//					viewAllBiker(bikerGroup);
+				//					addDiscussionGroups(bikerGroup);
+				//					viewDiscussionGroups(bikerGroup);
+				//					deleteDiscussionGroups(bikerGroup);
+				//				}
+				//				else {
+				//					System.out.println("Only admin can access");
+				//				}
 				viewAllBiker(bikerGroup);
 			}
 			else if (option == 5) {
 				System.out.println("Thank You for using Biking Community Portal!");
-				}
 			}
 		}
+	}
+
+ 
 
 	public static void menu() {
 		BikerCommunityPortal.setHeader("Biker Community Portal");
@@ -74,9 +81,11 @@ public class BikerCommunityPortal {
 		Helper.line(80, "-");
 	}
 
-// add biker 
+ 
+
+	// add biker 
 	public static Biker createBiker() {
-		String passwordpattern = "[a-z]{1} &&([0-9] || [a-z]){8}";
+		String passwordpattern = "";
 		String name = Helper.readString("Enter name > ");
 		String date_of_birth = Helper.readString("Enter date of birth > ");
 		String nationality = Helper.readString("Enter nationality > ");
@@ -90,52 +99,74 @@ public class BikerCommunityPortal {
 
  
 
-		Biker biker= new Biker(name, date_of_birth, nationality, email, mobilenumber, gender, age, username, password, userType);
+		Biker biker = new Biker(name, date_of_birth, nationality, email, mobilenumber, gender, age, username, password, userType);
 		return biker;
 	}
 
  
 
-	public static void addBiker(ArrayList<Biker> bikerList, Biker biker1) {
+	public static void addBiker(ArrayList<Biker> bikerList, Biker b) {
 		Biker item;
 		for(int i = 0; i < bikerList.size(); i++) {
 			item = bikerList.get(i);
-			if (item.getName().equalsIgnoreCase(biker1.getName()) )
+			if (item.getName().equalsIgnoreCase(b.getName()) ) 
 				return;
-			}
-		if ((biker1.getName().isEmpty()) || (biker1.getDate_of_birth().isEmpty()) ) {
+		}
+		if ((b.getName().isEmpty()) || (b.getDate_of_birth().isEmpty()) ) {
 			return;
-		}
-		bikerList.add(biker1);
-		System.out.println(biker1 + "added into group");
-		}
 
  
 
-// view all biker
+		}
+		bikerList.add(b);
+		System.out.println(bikerList.get(0).getName());
+	}
+
+ 
+
+	// view all biker
 	public static String retrieveAllBiker(ArrayList<Biker> bikerList) {
 		String output = "";
 
+ 
+
 		for (int i = 0; i < bikerList.size(); i++) {
-	           output += String.format("%-150s\n", bikerList.get(i).toString());
-	    }
+			output += String.format("%-200s\n", bikerList.get(i).toString());
+		}
 		return output;
 	}
 
-	public static void viewAllBiker(ArrayList<Biker> bikerList) {
-			BikerCommunityPortal.setHeader("Biker LIST");
-			String output = String.format("%-10s %-30s %-10s %-10s %-20s %-20s %-20s\\n", "NAME", "DATE OF BIRTH",
-					"NATIONALITY", "EMAIL", "PHONE NUMBER", "GENDER", "AGE");
-			 output += retrieveAllBiker(bikerList);	
-			System.out.println(output);
-		}
+ 
 
+	public static void viewAllBiker(ArrayList<Biker> bikerList) {
+		BikerCommunityPortal.setHeader("Biker LIST");
+		String output = String.format("%-10s %-30s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s\n", "NAME", "DATE OF BIRTH",
+				"NATIONALITY", "EMAIL", "PHONE NUMBER", "GENDER", "AGE", "USERNAME", "PASSWORD", "USER TYPE");
+		for (int i = 0; i < bikerList.size(); i++) {
+			output += String.format("%-10s %-30s %-10s %-10s %-10d %-10c %-10d %-10s %-10s %-10d\n", bikerList.get(i).getName(), bikerList.get(i).getDate_of_birth(), bikerList.get(i).getNationality(), bikerList.get(i).getEmail(), bikerList.get(i).getMobileNumber(), bikerList.get(i).getGender(), bikerList.get(i).getAge(), bikerList.get(i).getUsername(), bikerList.get(i).getPassword(), bikerList.get(i).getUserType());
+		}	
+		System.out.println(output);
+	}
 
  
 
-// delete biker
-	public static void deleteBiker(ArrayList<Biker> bikerList, Biker biker1) {
-		String input = Helper.readString("Input a usr to be deleted");
+ 
 
+	// delete biker
+	public static void deleteBiker(ArrayList<Biker> bikerList) {
+		boolean isfound = false;
+		String input = Helper.readString("Input a user to be deleted");
+		for(int i = 0; i < bikerList.size(); i++) {
+			if (bikerList.get(i).getName().equalsIgnoreCase(input)) {
+				bikerList.remove(i);
+				isfound = true;
+			}
+		}
+		if (isfound == true) {
+			System.out.println("Biker deleted");
+		}
+		else {
+			System.out.println("Biker is unable to be deleted");
+		}
 	}
 }
