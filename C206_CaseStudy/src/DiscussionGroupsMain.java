@@ -22,11 +22,15 @@ public class DiscussionGroupsMain {
 
 		DiscussionGroups dg1 = inputDiscussionGroups();
 
+		String userInput = Helper.readString("Enter Topic To Delete > ");
+
+		 viewAllDiscussionGroups(discussionList);
+
 		addDiscussionGroups(discussionList, dg1);
 
         viewAllDiscussionGroups(discussionList);
 
-        deleteDiscussionGroups(discussionList , dg1);
+        deleteDiscussionGroups(discussionList , userInput);
 
         viewAllDiscussionGroups(discussionList);
 
@@ -112,27 +116,23 @@ public class DiscussionGroupsMain {
 
 	}
 
-	public static void deleteDiscussionGroups(ArrayList<DiscussionGroups> discussionList , DiscussionGroups dg) {
-
-		String userInput = Helper.readString("Enter The Topic To Delete > ");
+	public static void deleteDiscussionGroups(ArrayList<DiscussionGroups> discussionList , String userInput) {
 
 		for (int i = 0; i < discussionList.size(); i++) {
 
-			if (dg.getTopic().equalsIgnoreCase(userInput)) {
+	        if (discussionList.get(i).getTopic().equalsIgnoreCase(userInput)) {
 
-				discussionList.remove(dg);
+	            discussionList.remove(i);
 
-				return;
+	            System.out.println("Discussion Group removed successfully.");
 
-			} else {
+	            return;
 
-				System.out.println("No Such Discussion Topic");
+	        }
 
-				break;
+	    }
 
-			}
-
-		}
+	    System.out.println("No Such Discussion Topic");
 
 	}
 
