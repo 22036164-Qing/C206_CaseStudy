@@ -38,7 +38,8 @@ public class EventsMain {
 				Events ev = inputEvents();
 				EventsMain.AddEvents(eventsList, ev); // Add events
 			} else if (option == 3) {
-				EventsMain.DeleteEvents(eventsList); // search for event to be deleted
+				Events ev = 
+				EventsMain.DeleteEvents(eventsList, ev); // search for event to be deleted
 				// EventsMain.displayDeleteEvents //display events
 			} else if (option == 4) {
 				System.out.println("Bye!");
@@ -165,7 +166,8 @@ public class EventsMain {
 
 	}
 
-	public static void DeleteEvents(ArrayList<Events> eventsList) {
+
+	public static void DeleteEvents(ArrayList<Events> eventsList, Events ev) {
 		String deleteEvents = Helper.readString("What event do you wish to delete ? > ");
 		for (int i = 0; i < eventsList.size(); i++) {
 			if (deleteEvents.contains(eventsList.get(i).getEventName())) {

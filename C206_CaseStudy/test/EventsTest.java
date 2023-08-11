@@ -112,8 +112,7 @@ public class EventsTest {
 		String testOutput1 = String.format("%-20s %-20s %-20s %-20s %-20s %-20s\n", "Biking in the East",
 				"East Coast Parkway", "30.10.2023", "11:30", "13:30", 2);
 		// assertTrue("Test that we want to search",'y');
-		// assertSame("Test that we are able to find what we want to search", "Biking in
-		// the East", true);
+		// assertSame("Test that we are able to find what we want to search", "Biking in the East", testOutput1);
 
 		// Test case 3
 		// Test that when it states y, it will display the information
