@@ -66,8 +66,4 @@ public class Events {
 	public String getInformation() {
 		return information;
 	}
-	
-	public void display() {
-		
-	}
 }

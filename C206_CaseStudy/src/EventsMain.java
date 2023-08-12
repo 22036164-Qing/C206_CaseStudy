@@ -33,13 +33,15 @@ public class EventsMain {
 			option = Helper.readInt("Enter option > ");
 			if (option == 1) {
 				EventsMain.viewAllEvents(eventsList);
-				EventsMain.viewSpecificEvents(eventsList);// View events + view events by search
+				EventsMain.inputViewEvents(eventsList);
+			//	EventsMain.viewSpecificEvents(eventsList);// View events + view events by search
 			} else if (option == 2) {
 				Events ev = inputEvents();
 				EventsMain.AddEvents(eventsList, ev); // Add events
+				
 			} else if (option == 3) {
-				Events ev = 
-				EventsMain.DeleteEvents(eventsList, ev); // search for event to be deleted
+				String ev = inputDeleteEvents();
+				EventsMain.DeleteEvents(eventsList,ev); // search for event to be deleted
 				// EventsMain.displayDeleteEvents //display events
 			} else if (option == 4) {
 				System.out.println("Bye!");
@@ -59,44 +61,52 @@ public class EventsMain {
 		Helper.line(50, "=");
 	}
 
-	public static String viewAllEvents(ArrayList<Events> eventsList) {
-		Helper.line(200, "-");
-		String Events = String.format("\n%-20s %-20s %-20s %-20s %-20s %-20s\n", "Event Name", "Event Venue",
-				"Date of Event", "Start Time", "End Time", "Duration");
-
+	public static String retrieveAllEvents(ArrayList<Events> eventsList) {
+		String output = "";
 		for (int i = 0; i < eventsList.size(); i++) {
 			String localdate = eventsList.get(i).getDate().toString();
 			String starttime = eventsList.get(i).getStartTime().toString();
 			String endtime = eventsList.get(i).getEndTime().toString();
 
-			Events += String.format("\n%-20s %-20s %-20s %-20s %-20s %-20.2f\n", eventsList.get(i).getEventName(),
+			output += String.format("\n%-20s %-20s %-20s %-20s %-20s %-20.2f\n", eventsList.get(i).getEventName(),
 					eventsList.get(i).getPlace(), localdate, starttime, endtime, eventsList.get(i).getDuration());
-			Events += String.format("%-20s:%-20s\n", "Description", eventsList.get(i).getInformation());
+			output += String.format("%-20s:%-20s\n", "Description", eventsList.get(i).getInformation());
 		}
-		System.out.println(Events);
 		System.out.println("See txt file for event");
 		Helper.line(200, "-");
 
+		
+		return output;
+		
+	}
+	
+	public static void viewAllEvents(ArrayList<Events> eventsList) {
+		String output = String.format("\n%-20s %-20s %-20s %-20s %-20s %-20s\n", "Event Name", "Event Venue",
+				"Date of Event", "Start Time", "End Time", "Duration");
+		output += retrieveAllEvents(eventsList);
+		System.out.println(output);
 		try {
 			File file = new File("Events.txt");
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write(Events);
+			bw.write(output);
 			bw.close();
 		} catch (IOException e) {
 			System.out.println("An error occured");
 
 		}
+	}
 
+	public static void inputViewEvents(ArrayList<Events> eventsList){
 		char optionFind = Helper.readChar("Do you want to find a specific event(Y/N) ? > ");
 		if (optionFind == 'y' || optionFind == 'Y') {
 			EventsMain.viewSpecificEvents(eventsList);
 		} else if (optionFind == 'N' || optionFind == 'n') {
 			System.out.println("Go back to menu()");
 		}
-		return Events;
-
 	}
+	
+	
 
 	public static String viewSpecificEvents(ArrayList<Events> eventsList) {
 		String events = Helper.readString("Search for event by name > ");
@@ -154,6 +164,8 @@ public class EventsMain {
 		for (int i = 0; i < eventsList.size(); i++) {
 			events = eventsList.get(i);
 			if (events.getEventName().equalsIgnoreCase(ev.getEventName())) {
+				System.out.println("Event name already Existed");
+				System.out.println("Please create an event of a different name");
 				return;
 			} else if (ev.getEventName().isEmpty() || ev.getPlace().isEmpty() || ev.getDate() == null
 					|| ev.getStartTime() == null || ev.getEndTime() == null || ev.getDuration() == 0) {
@@ -166,11 +178,17 @@ public class EventsMain {
 
 	}
 
+	public static String inputDeleteEvents() {
+		String ev = "";
+		String deleteEvent = Helper.readString("Enter events name to delete > ");
+		ev = deleteEvent;
+		
+	return ev;
+	}
 
-	public static void DeleteEvents(ArrayList<Events> eventsList, Events ev) {
-		String deleteEvents = Helper.readString("What event do you wish to delete ? > ");
+	public static void DeleteEvents(ArrayList<Events> eventsList,String ev) {
 		for (int i = 0; i < eventsList.size(); i++) {
-			if (deleteEvents.contains(eventsList.get(i).getEventName())) {
+			if (ev.equalsIgnoreCase(eventsList.get(i).getEventName())) {
 				eventsList.remove(i);
 				try {
 					File file = new File("Events.txt");

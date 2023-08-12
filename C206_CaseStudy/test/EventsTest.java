@@ -28,7 +28,7 @@ public class EventsTest {
 
 		// Prepare Test Data
 		ev1 = new Events("Biking in the East", "East Coast Parkway", LocalDate.parse("30.10.2023", dateFormatter),
-				LocalTime.parse("11:30", timeFormatter), LocalTime.parse("13:30", timeFormatter), 2);
+				LocalTime.parse("11:30", timeFormatter), LocalTime.parse("13:30", timeFormatter), 2.00);
 		ev2 = new Events("Biking in the West", "Lim Chu Kang Road", LocalDate.parse("30.08.2023", dateFormatter),
 				LocalTime.parse("16:30", timeFormatter), LocalTime.parse("21:00", timeFormatter), 4.30,
 				"Lim Chu Kang Road - Heritage Roads - Gardens, Parks & Nature");
@@ -38,9 +38,7 @@ public class EventsTest {
 
 	@Test
 	public void testAddEvents() {
-		// Test 1
-		// eventslist is valid, empty and null
-
+		// Test 1 - eventslist is valid, empty and null
 		assertNotNull("Test that the Events arrayList is valid", eventsList);
 		assertEquals("Test that the Events arrayList is empty", 0, eventsList.size());
 
@@ -51,16 +49,13 @@ public class EventsTest {
 		assertSame("Test that the Events object added in the arrayList is the same as the Events object", ev1,
 				eventsList.get(0));
 
-		// Test 2
-		// Add repeated Event object
-		EventsMain.AddEvents(eventsList, ev1);
+		// Test 2 // Add repeated Event object EventsMain.AddEvents(eventsList, ev1);
 		// The repeated Event object will not be added, The arrayList remain the same
 		assertEquals("Test that the size of the eventsList remains the same", 1, eventsList.size());
 
-		// Test 3
-		// Add an object with missing important data
+		// Test 3 // Add an object with missing important data
 		// The Event object will not be added in they arrayList, arrayList size remain
-		// the same
+		// // the same Events
 		Events ev4_missing = new Events("", "", LocalDate.parse("22.11.2023", dateFormatter),
 				LocalTime.parse("08:10", timeFormatter), LocalTime.parse("10:30", timeFormatter), 2);
 		EventsMain.AddEvents(eventsList, ev4_missing);
@@ -73,74 +68,78 @@ public class EventsTest {
 		// Test if Item list is not null and empty
 		assertNotNull("Test if there is valid Event arraylist to add to", eventsList);
 		assertEquals("Test that the Event arraylist is empty.", 0, eventsList.size());
-		// Attempt to retrieve the Events
-
+		// Attempt to retrieve the Camcoders
+		String allEvents = EventsMain.retrieveAllEvents(eventsList);
 		String testOutput = "";
 		// Test if the output is empty
-		assertEquals("Test that nothing is displayed", testOutput, EventsMain.viewAllEvents(eventsList));
+		assertEquals("Test that nothing is displayed", testOutput, allEvents);
 
 		// Test Case 2
+
 		EventsMain.AddEvents(eventsList, ev1);
+		EventsMain.AddEvents(eventsList, ev2);
 		// Test that the list is not empty
-		assertEquals("Test that Events arraylist size is 1.", 1, eventsList.size());
+		assertEquals("Test that Camcorder arraylist size is 2.", 2, eventsList.size());
 		// Attempt to retrieve the Events
-		String allEvents = EventsMain.viewAllEvents(eventsList);
-		testOutput = String.format("\n%-20s %-20s %-20s %-20s %-20s %-20.2f\n", "Biking in the East",
+		allEvents = EventsMain.retrieveAllEvents(eventsList);
+
+		testOutput += String.format("\n%-20s %-20s %-20s %-20s %-20s %-20.2f\n", "Biking in the East",
 				"East Coast Parkway", LocalDate.parse("30.10.2023", dateFormatter),
-				LocalTime.parse("11:30", timeFormatter), LocalTime.parse("13:30", timeFormatter), 2);
+				LocalTime.parse("11:30", timeFormatter), LocalTime.parse("13:30", timeFormatter), 2.00);
+		testOutput += String.format("%-20s:%-20s\n", "Description", "Stay tuned for more information");
+
+		testOutput += String.format("\n%-20s %-20s %-20s %-20s %-20s %-20.2f\n", "Biking in the West",
+				"Lim Chu Kang Road", LocalDate.parse("30.08.2023", dateFormatter),
+				LocalTime.parse("16:30", timeFormatter), LocalTime.parse("21:00", timeFormatter), 4.30);
+		testOutput += String.format("%-20s:%-20s\n", "Description",
+				"Lim Chu Kang Road - Heritage Roads - Gardens, Parks & Nature");
+
 		// Test that the details are displayed correctly
-		assertEquals("Test that the display is correct.", testOutput, allEvents);
+		assertEquals("Test that the testOutput and eventsList match.", testOutput, allEvents);
 
-	}
+		// Test Case 3
 
-	@Test
-	public void testSpecificViewEvents() {
-		// Test case 1
-		// Test that eventsList is not null and empty
-		assertNotNull("Test that there is a valid Events arrayList to add to", eventsList);
-		assertEquals("Test that the arrayList is empty.", 0, eventsList.size());
-		// Test that event object is added into the eventList
-		EventsMain.AddEvents(eventsList, ev1);
-		// Test that the eventList event object appears if i search
-		String testOutput = String.format("%-20s %-20s %-20s %-20s %-20s %-20s\n", "Biking in the East",
-				"East Coast Parkway", "30.10.2023", "11:30", "13:30", 2);
-		String specificEvents = EventsMain.viewSpecificEvents(eventsList);
-		assertEquals("Test that we are able to find what we want to search", testOutput.contains(specificEvents), true);
+		// Test that the list is not empty
+		assertEquals("Test that Camcorder arraylist size is 2.", 2, eventsList.size());
+		// Delete the Events
+		EventsMain.DeleteEvents(eventsList, "Biking in the East");
+		// update output
+		testOutput = String.format("\n%-20s %-20s %-20s %-20s %-20s %-20.2f\n", "Biking in the West",
+				"Lim Chu Kang Road", LocalDate.parse("30.08.2023", dateFormatter),
+				LocalTime.parse("16:30", timeFormatter), LocalTime.parse("21:00", timeFormatter), 4.30);
+		testOutput += String.format("%-20s:%-20s\n", "Description",
+				"Lim Chu Kang Road - Heritage Roads - Gardens, Parks & Nature");
+		// Attempt to retrieve the Events
+		allEvents = EventsMain.retrieveAllEvents(eventsList);
+		// Test that the details are displayed correctly
+		assertEquals("Test that the testOutput and eventsList match.", testOutput, allEvents);
 
-		// Test Case 2
-		// EventsMain.AddEvents(eventsList, ev2);
-		String testOutput1 = String.format("%-20s %-20s %-20s %-20s %-20s %-20s\n", "Biking in the East",
-				"East Coast Parkway", "30.10.2023", "11:30", "13:30", 2);
-		// assertTrue("Test that we want to search",'y');
-		// assertSame("Test that we are able to find what we want to search", "Biking in the East", testOutput1);
-
-		// Test case 3
-		// Test that when it states y, it will display the information
-		eventsList.add(ev1);
-		char optionFind = 'Y';
-		assertEquals("Test that the answer is 'Y' ", 'Y', optionFind);
-		char optionFind1 = 'N';
-		assertEquals("Test that the answer is 'N' ", 'N', optionFind1);
 	}
 
 	@Test
 	public void testDeleteEvents() {
-		// Test that there is a valid arrayList to delete the Events object
-        // Test Case 1 - Delete an Event
-        assertNotNull("test if there is valid Events arraylist to loan from", eventsList);
-        EventsMain.AddEvents(eventsList, ev1);
-        EventsMain.DeleteEvents(eventsList,ev1);
-        assertEquals("Test that the eventsList is 0",0,eventsList.size()); // "Biking in the East
-        
-        //Test Case 2, Delete multiple Event object
-        assertNotNull("test if there is valid Events arraylist to loan from", eventsList);
-        EventsMain.AddEvents(eventsList, ev1);
-        EventsMain.AddEvents(eventsList, ev2);
-        EventsMain.DeleteEvents(eventsList,ev2);
-        EventsMain.DeleteEvents(eventsList,ev1);
-        assertEquals("Test that the eventsList is 1",0,eventsList.size()); //Biking in the east, Biking in the west
+		// Test that there is a valid
+		// arrayList to delete the Events object 
+		// Test Case 1 - Delete an Event
+		assertNotNull("test if there is valid Events arraylist to loan from", eventsList);
+		EventsMain.AddEvents(eventsList, ev1);
+		EventsMain.DeleteEvents(eventsList, "Biking in the East");
+		assertEquals("Test that the eventsList is 0", 0, eventsList.size());
 
+		// Test Case 2, Delete multiple Event object
+		assertNotNull("test if there is valid Events arraylist to loan from", eventsList);
+		EventsMain.AddEvents(eventsList, ev1);
+		EventsMain.AddEvents(eventsList, ev2);
+		EventsMain.DeleteEvents(eventsList, "Biking in the West");
+		EventsMain.DeleteEvents(eventsList, "Biking in the East");
+		assertEquals("Test that the eventsList is 1", 0, eventsList.size());
+		
+		// Test Case 3, Delete an invalid Event object
+		EventsMain.AddEvents(eventsList, ev1);
+		EventsMain.DeleteEvents(eventsList,"OutdoorBiking");
+		assertEquals("Test that outdoorBiking would not be deleted & eventsList remain the same",1,eventsList.size());
 	}
+	
 
 	@After
 	public void tearDown() throws Exception {
