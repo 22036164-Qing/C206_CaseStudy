@@ -68,7 +68,7 @@ public class EventsTest {
 		// Test if Item list is not null and empty
 		assertNotNull("Test if there is valid Event arraylist to add to", eventsList);
 		assertEquals("Test that the Event arraylist is empty.", 0, eventsList.size());
-		// Attempt to retrieve the Camcoders
+		// Attempt to retrieve the Events
 		String allEvents = EventsMain.retrieveAllEvents(eventsList);
 		String testOutput = "";
 		// Test if the output is empty
@@ -132,7 +132,7 @@ public class EventsTest {
 		EventsMain.AddEvents(eventsList, ev2);
 		EventsMain.DeleteEvents(eventsList, "Biking in the West");
 		EventsMain.DeleteEvents(eventsList, "Biking in the East");
-		assertEquals("Test that the eventsList is 1", 0, eventsList.size());
+		assertEquals("Test that the eventsList is 0", 0, eventsList.size());
 		
 		// Test Case 3, Delete an invalid Event object
 		EventsMain.AddEvents(eventsList, ev1);
