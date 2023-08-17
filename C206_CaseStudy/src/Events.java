@@ -1,4 +1,4 @@
-import java.time.Duration;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -65,5 +65,12 @@ public class Events {
 
 	public String getInformation() {
 		return information;
+	}
+	
+	public String toString() {
+		String eventsInfo = String.format("%-20s %-20s %-20s %-20s %-20s %-20.2f",eventName,
+				place, date.toString(), startTime.toString(), endTime.toString(),duration);
+		eventsInfo += String.format("\n%-20s:%-20s\n", "Description", information);
+		return eventsInfo;
 	}
 }

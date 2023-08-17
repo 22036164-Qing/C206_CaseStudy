@@ -10,6 +10,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+//EventsMain links with EventsTest
 public class EventsMain {
 
 	public static void main(String[] args) {
@@ -201,9 +202,7 @@ public class EventsMain {
 					String line = br.readLine();
 					while (line != null) {
 						line = br.readLine();
-						bw.write("Event: " + eventsList.get(i).getEventName() + "scheduled on :"
-								+ eventsList.get(i).getDate() + eventsList.get(i).getStartTime()
-								+ " has been cancelled!");
+						bw.write("");
 					}
 					bw.close();
 					br.close();

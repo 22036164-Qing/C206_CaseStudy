@@ -1,5 +1,9 @@
+package codes;
+
+ 
 
 import java.util.ArrayList;
+
 
  
 
@@ -7,56 +11,38 @@ public class BikerCommunityPortal {
 
  
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
  
 
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
 		ArrayList<Biker> bikerGroup = new ArrayList<Biker>();
 
  
 
 		//list for overall system
 		ArrayList<Biker> bikerList = new ArrayList<Biker>();
-		Biker biker1 = new Biker("Zhi Yong", "20-01-2004 ", "Singaporean", "22010029@myrp.edu.sg", 90009000, 'M', 19, "ZhiYong", "E@123456", 2);
-		bikerList.add(biker1);
-
+//		
 		int option = 0;
 
  
 
 		while (option != 5) {
-
- 
-
 			BikerCommunityPortal.menu();
 			option = Helper.readInt("Enter an option > ");
 			if (option == 1) {
-				createBiker();
+				Biker createBiker = createBiker();
+				bikerList.add(createBiker);
 			}
 			else if (option == 2) {
-				//				addbikeunderBiker();
 				Biker biker = createBiker();
 				addBiker(bikerList, biker);
 				System.out.println("Biker added");
 			}
 			else if (option == 3) {
-				//				addnewRegistration();
 				deleteBiker(bikerList);
 			}
 			else if (option == 4) {
-				//				if(usertype == admin) {
-				//					addBiker(bikerGroup);
-				//					deleteBiker(bikerGroup);
-				//					viewAllBiker(bikerGroup);
-				//					addDiscussionGroups(bikerGroup);
-				//					viewDiscussionGroups(bikerGroup);
-				//					deleteDiscussionGroups(bikerGroup);
-				//				}
-				//				else {
-				//					System.out.println("Only admin can access");
-				//				}
-				viewAllBiker(bikerGroup);
+				viewAllBiker(bikerList);
 			}
 			else if (option == 5) {
 				System.out.println("Thank You for using Biking Community Portal!");
@@ -66,12 +52,14 @@ public class BikerCommunityPortal {
 
  
 
+ 
+
 	public static void menu() {
 		BikerCommunityPortal.setHeader("Biker Community Portal");
 		System.out.println("1. Create account");
-		System.out.println("2. Add bike");
-		System.out.println("3. Register to event");
-		System.out.println("4. Group Admin");
+		System.out.println("2. Add biker");
+		System.out.println("3. Delete biker");
+		System.out.println("4. View all biker");
 		System.out.println("5. Quit");
 		Helper.line(80, "-");
 	}
@@ -83,9 +71,11 @@ public class BikerCommunityPortal {
 
  
 
+ 
+
 	// add biker 
 	public static Biker createBiker() {
-		String passwordpattern = "";
+
 		String name = Helper.readString("Enter name > ");
 		String date_of_birth = Helper.readString("Enter date of birth > ");
 		String nationality = Helper.readString("Enter nationality > ");
@@ -94,7 +84,7 @@ public class BikerCommunityPortal {
 		char gender = Helper.readChar("Enter gender (M/F) > ");
 		int age = Helper.readInt("Enter age > ");
 		String username = Helper.readString("Create a username > ");
-		String password = Helper.readStringRegEx("Create a password > ", passwordpattern);
+		String password = Helper.readString("Create a password > ");
 		int userType = Helper.readInt("Update user to admin by entering 2 >");
 
  
@@ -114,13 +104,12 @@ public class BikerCommunityPortal {
 		}
 		if ((b.getName().isEmpty()) || (b.getDate_of_birth().isEmpty()) ) {
 			return;
-
- 
-
 		}
 		bikerList.add(b);
 		System.out.println(bikerList.get(0).getName());
 	}
+
+ 
 
  
 
@@ -138,12 +127,16 @@ public class BikerCommunityPortal {
 
  
 
+ 
+
 	public static void viewAllBiker(ArrayList<Biker> bikerList) {
 		BikerCommunityPortal.setHeader("Biker LIST");
-		String output = String.format("%-10s %-30s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s\n", "NAME", "DATE OF BIRTH",
+		String output = String.format("%-10s %-30s %-10s %-20s %-20s %-10s %-10s %-10s %-20s %-10s\n", "NAME", "DATE OF BIRTH",
 				"NATIONALITY", "EMAIL", "PHONE NUMBER", "GENDER", "AGE", "USERNAME", "PASSWORD", "USER TYPE");
 		for (int i = 0; i < bikerList.size(); i++) {
-			output += String.format("%-10s %-30s %-10s %-10s %-10d %-10c %-10d %-10s %-10s %-10d\n", bikerList.get(i).getName(), bikerList.get(i).getDate_of_birth(), bikerList.get(i).getNationality(), bikerList.get(i).getEmail(), bikerList.get(i).getMobileNumber(), bikerList.get(i).getGender(), bikerList.get(i).getAge(), bikerList.get(i).getUsername(), bikerList.get(i).getPassword(), bikerList.get(i).getUserType());
+			output += String.format("%-10s %-30s %-10s %-20s %-20d %-10c %-10d %-10s %-20s %-10d\n", bikerList.get(i).getName(), bikerList.get(i).getDate_of_birth(), 
+			bikerList.get(i).getNationality(), bikerList.get(i).getEmail(), bikerList.get(i).getMobileNumber(), bikerList.get(i).getGender(), bikerList.get(i).getAge(), 
+			bikerList.get(i).getUsername(), bikerList.get(i).getPassword(), bikerList.get(i).getUserType());
 		}	
 		System.out.println(output);
 	}
