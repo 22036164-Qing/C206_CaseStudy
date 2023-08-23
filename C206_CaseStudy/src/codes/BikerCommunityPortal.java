@@ -142,15 +142,13 @@ public class BikerCommunityPortal {
 						DeleteEvents(eventsList,ev);
 					}
 					else if (eventopt == 4) {
-						viewRegistrations(eventsList);
+						String event = Helper.readString("Event name > ");
+						viewRegistrations(eventsList, event);
 					}
 					else if (eventopt == 5) {
 						String event = Helper.readString("Which event do you want to unregister the user from > ");
 						String user = Helper.readString("Which user do you wish to unregister > ");
 						unregisterBikerSide(eventsList, event, user);
-					}
-					else if (eventopt == 6) {
-						manageRegistrations(eventsList, bikerList);
 					}
 					else {
 						break;
@@ -597,119 +595,130 @@ public static void deleteGroup(ArrayList<Groups> groups, String name) {
 	}
 }
 
-// register
+//register
 public static void registerBiker(ArrayList<Events> eventsList, ArrayList<Biker> bikerList, String event, String user) {
-	for (int i = 0; i < eventsList.size(); i++) {
-		if (eventsList.get(i).getEventName().equalsIgnoreCase(event)) {
-			try {
-				File file = new File(event+"Participants.txt");
-				FileReader fr = new FileReader(file);
-				BufferedReader br = new BufferedReader(fr);
-				FileWriter fw = new FileWriter(file);
-				BufferedWriter bw = new BufferedWriter(fw);
-				fw.write(user);
-				bw.close();
-				br.close();
-			} catch (FileNotFoundException e) {
-				System.out.println("Events file do not exist");
-			} catch (IOException e) {
-				System.out.println("An error occured");
-			}
-		}
-	}
+ int size = eventsList.size();
+ for (int i = 0; i < size; i++) {
+   String name = eventsList.get(i).getEventName();
+   if (name.equalsIgnoreCase(event)) {
+     try {
+       File file = new File(event+"Participants.txt");
+       file.createNewFile();
+       FileReader fr = new FileReader(file);
+       BufferedReader br = new BufferedReader(fr);
+       FileWriter fw = new FileWriter(file);
+       BufferedWriter bw = new BufferedWriter(fw);
+       bw.write(user+"\n");
+       System.out.println("Participant registered");
+       bw.close();
+       br.close();
+     } catch (FileNotFoundException e) {
+       System.out.println("Events file do not exist");
+     } catch (IOException e) {
+       System.out.println("An error occured");
+     }
+   }
+ }
 }
 
 public static void unregisterBikerSide(ArrayList<Events> eventsList, String event, String user) {
-	for (int i = 0; i < eventsList.size(); i++) {
-		if (eventsList.get(i).getEventName().equalsIgnoreCase(event)) {
-			try {
-				File file = new File(event+"Participants.txt");
-				FileReader fr = new FileReader(file);
-				BufferedReader br = new BufferedReader(fr);
-				FileWriter fw = new FileWriter(file);
-				BufferedWriter bw = new BufferedWriter(fw);
-				String line = br.readLine();
+ int size = eventsList.size();
+ for (int i = 0; i < size; i++) {
+   String name = eventsList.get(i).getEventName();
+   if (name.equalsIgnoreCase(event)) {
+     try {
+       File file = new File(event+"Participants.txt");
+       FileReader fr = new FileReader(file);
+       BufferedReader br = new BufferedReader(fr);
+       FileWriter fw = new FileWriter(file);
+       BufferedWriter bw = new BufferedWriter(fw);
+       String line = "";
 
-				while (line != user) {
-					line = br.readLine();
-					bw.append("");
-				}
-				bw.close();
-				bw.close();
-			} catch (FileNotFoundException e) {
-				System.out.println("Events file do not exist");
-			} catch (IOException e) {
-				System.out.println("An error occured");
-			}
-		}
-	}
+       while (line != null) {
+         line = br.readLine();
+         if (line==user) {
+           bw.append("");
+           System.out.println("Participant unregistered!");
+         }
+       }
+       br.close();
+       bw.close();
+     } catch (FileNotFoundException e) {
+       System.out.println("Events file do not exist");
+     } catch (IOException e) {
+       System.out.println("An error occured");
+     }
+   }
+ }
 }
 
-public static void manageRegistrations(ArrayList<Events> eventsList, ArrayList<Biker> bikerList) {
-	String output = "";
-	String event = Helper.readString("Which event do you wish to manage > ");
-	String user = Helper.readString("Which user do you wish to manage > ");
+//public static void manageRegistrations(ArrayList<Events> eventsList, ArrayList<Biker> bikerList) {
+//  String output = "";
+//  String event = Helper.readString("Which event do you wish to manage > ");
+//  String user = Helper.readString("Which user do you wish to manage > ");
+//  int size = eventsList.size();
+//  for(int i = 0; i < size; i++) {
+//    String name = eventsList.get(i).getEventName();
+//    if (name.contains(event)) {
+//      try {
+//        File file = new File(event+"Participants.txt");
+//        FileReader fr = new FileReader(file);
+//        BufferedReader br = new BufferedReader(fr);
+//        FileWriter fw = new FileWriter(file);
+//        BufferedWriter bw = new BufferedWriter(fw);
+//        String line = br.readLine();
+//
+//        if(line.equalsIgnoreCase(user)) {
+//          int size2 = bikerList.size();
+//          for(int z = 0; z < size2; z++) {
+//            String name2 = bikerList.get(i).getName();
+//            if (name2.equalsIgnoreCase(user)) {
+//              output += String.format("%-10s %-30s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s\n", "NAME", "DATE OF BIRTH",
+//                  "NATIONALITY", "EMAIL", "PHONE NUMBER", "GENDER", "AGE", "USERNAME", "PASSWORD", "USER TYPE");
+//              output += String.format("%-10s %-30s %-10s %-10s %-10d %-10c %-10d %-10s %-10s %-10d\n", bikerList.get(z).getName(), bikerList.get(z).getDate_of_birth(), bikerList.get(z).getNationality(), bikerList.get(z).getEmail(), bikerList.get(z).getMobileNumber(), bikerList.get(z).getGender(), bikerList.get(z).getAge(), bikerList.get(z).getUsername(), bikerList.get(z).getPassword(), bikerList.get(z).getUserType());
+//            }
+//          }
+//        }
+//        bw.close();
+//        br.close();
+//      } catch (FileNotFoundException e) {
+//        System.out.println("Events file do not exist");
+//      } catch (IOException e) {
+//        System.out.println("An error occured");
+//      }
+//    }
+//  }
+//  System.out.println(output);
+//}
+public static void viewRegistrations(ArrayList<Events> eventsList, String event) {
+ int size = eventsList.size();
+ for (int i = 0; i < size; i++) {
+   String name = eventsList.get(i).getEventName();
+   if (name.contains(event)) {
+     try {
+       File file = new File(event+"Participants.txt");
+       FileReader fr = new FileReader(file);
+       BufferedReader br = new BufferedReader(fr);
+       System.out.println("Participants:");
+       String line = "";
 
-	for(int i = 0; i < eventsList.size(); i++) {
-		if (eventsList.get(i).getEventName().contains(event)) {
-			try {
-				File file = new File(event+"Participants.txt");
-				FileReader fr = new FileReader(file);
-				BufferedReader br = new BufferedReader(fr);
-				FileWriter fw = new FileWriter(file);
-				BufferedWriter bw = new BufferedWriter(fw);
-				String line = br.readLine();
+       while (line != null) {
+         line = br.readLine();
+         if (line != null) {
+           System.out.println(line);
+         }
+       }
+       br.close();
+     } catch (FileNotFoundException e) {
 
-				if(line.equalsIgnoreCase(user)) {
-					for(int z = 0; z < bikerList.size(); z++) {
-						if (bikerList.get(z).getName().equalsIgnoreCase(user)) {
-							output += String.format("%-10s %-30s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s\n", "NAME", "DATE OF BIRTH",
-									"NATIONALITY", "EMAIL", "PHONE NUMBER", "GENDER", "AGE", "USERNAME", "PASSWORD", "USER TYPE");
-							output += String.format("%-10s %-30s %-10s %-10s %-10d %-10c %-10d %-10s %-10s %-10d\n", bikerList.get(z).getName(), bikerList.get(z).getDate_of_birth(), bikerList.get(z).getNationality(), bikerList.get(z).getEmail(), bikerList.get(z).getMobileNumber(), bikerList.get(z).getGender(), bikerList.get(z).getAge(), bikerList.get(z).getUsername(), bikerList.get(z).getPassword(), bikerList.get(z).getUserType());
-						}
-					}
-				}
-				bw.close();
-				br.close();
-			} catch (FileNotFoundException e) {
-				System.out.println("Events file do not exist");
-			} catch (IOException e) {
-				System.out.println("An error occured");
-			}
-		}
-	}
-	System.out.println(output);
-}
+       System.out.println("Events file do not exist");
 
-public static void viewRegistrations(ArrayList<Events> eventsList) {
-	String event = Helper.readString("What event's registration list do you wish to view > ");
-	for (int i = 0; i < eventsList.size(); i++) {
-		if (eventsList.get(i).getEventName().contains(event)) {
-			try {
-				File file = new File(event+"Participants.txt");
-				FileReader fr = new FileReader(file);
-				BufferedReader br = new BufferedReader(fr);
-				FileWriter fw = new FileWriter(file);
-				BufferedWriter bw = new BufferedWriter(fw);
-				System.out.println("Participants:");
-				String line = br.readLine();
+     } catch (IOException e) {
 
-				while (line != null) {
-					line = br.readLine();
-					System.out.println(line);
-				}
-				bw.close();
-				bw.close();
-			} catch (FileNotFoundException e) {
-
-				System.out.println("Events file do not exist");
-
-			} catch (IOException e) {
-
-				System.out.println("An error occured");
-			}
-		}
-	}
+       System.out.println("An error occured");
+     }
+   }
+ }
 }
 
 //bike

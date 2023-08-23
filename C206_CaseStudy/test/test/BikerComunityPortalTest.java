@@ -423,7 +423,7 @@ public class BikerComunityPortalTest {
 	   
 
 	      // Add an item that already exists in the list
-
+	      
 	      String group = "C206";
 
 	      BikerCommunityPortal.addGroup(groupsList, group);
@@ -721,5 +721,6 @@ public class BikerComunityPortalTest {
 		inventory = null;
         
         //register
+		
 	}
 }
